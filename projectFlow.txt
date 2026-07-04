@@ -1,0 +1,87 @@
+# pre-requisits
+1. node js installed -> npm version
+2. uv installed -> if not use commands 
+-> python -m pip install uv
+-> python -m pip show uv
+-> add this to path in env var "C:\Users\DELL\AppData\Local\Programs\Python\Python311\Scripts" considering uv.exe is here
+-> check uv with -> uv --version
+3. claude desktop installed -> to use as MCP client till we build cutom mcp client
+
+# project creation
+1. Create a dir and open VScode pointing to that dir
+2. Execute following command: "uv init ." 
+-> it will create folder structure with
+.gitignore
+.python-version
+main.py
+pyproject.toml
+README.md
+3. Execute following command: "uv add fastmcp"
+-> if you named your project folder as mcp you are doomed -> rename to something other and in pyproject.toml also rename
+-> creates .venv virtual enviornment
+-> create requirements.txt with fastmcp as dependency in it 
+-> execute after activating env -> pip install -r requirements.txt
+4. Execute following command-> ".venv\Scripts\Activate.ps1"
+-> activates venv
+5. Verify fastmcp installation: "fastmcp version"
+-> expected output
+FastMCP version:                                                                     3.4.2
+MCP version:                                                                        1.28.1
+Python version:                                                                     3.11.0
+Platform:                                                        Windows-10-10.0.26200-SP0
+FastMCP root path: C:\Users\DELL\AppData\Local\Programs\Python\Python311\Lib\site-packages
+
+6. Add server code to main.py
+method documentation is necessary for each method
+
+7. Command to run inspector -> "npx @modelcontextprotocol/inspector uv run python main.py"
+
+8. Command to run mcp server -> "uv run fastmcp run main.py"
+9. "uv run fastmcp install claude-desktop main.py" -> edit config of claudedesktop
+
+Optional step via editing config:
+---
+"mcpServers" : {
+    "my-mcp-server": {
+      "command": "C:\\Users\\DELL\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\uv.exe",
+      "args": [
+        "run",
+        "--directory",
+        "D:\\LearnPython\\MCP",
+        "python",
+        "main.py"
+      ]
+    }
+  }
+---
+
+** Steps to deploy our MCP server **
+-------------------------------------
+**Optional Steps A-H**
+A> Create a new folder & open in VSCode
+B> Install & verify uv installation: "where uv" or "uv version"
+C> Execute the command "uv init ."
+D> Run -> "uv add fastmcp"
+E> Activate the project venv before working: -> ".venv\Scripts\Activate.ps1"
+F> Verify: "fastmcp version"
+G> Add code to main.py file
+H> Also test on MCP inspector by doing: 
+Terminal1: "uv run python main.py"
+Terminal2: "npx @modelcontextprotocol/inspector uv run python main.py"
+
+I> Git Setup after creating a new github repo:
+git init
+git add README.md
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/vikashishere/remote-mcp-helpdesk-server.git
+git push -u origin main
+
+J> create a requirements.txt -> fastmcp
+K> Go to railway.com, signup & auth with github, select the repo & deploy
+L> Click on the service card -> deployment -> logs; to check if app is running or not
+M> Service card -> settings -> find: networking -> if no public domain exists, click -> Generate Domain
+(it will create something like: https://your-app-production.up.railway.app)
+
+N> Add this domain to our custom connect as: https:domain/mcp; then just restart claude
